@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zClipRDPClient", "zClipRDPClient\zClipRDPClient.csproj", "{BB3908B8-6740-4DE6-AB0E-95C70959D519}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zClipRDPMinorClient", "zClipRDPMinorClient\zClipRDPMinorClient.csproj", "{31A80A95-9FE5-43BE-9312-CE68B15F5086}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		zRDPClip|Any CPU = zRDPClip|Any CPU
+		zRDPClip|x64 = zRDPClip|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.Release|x64.Build.0 = Release|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.zRDPClip|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.zRDPClip|Any CPU.Build.0 = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.zRDPClip|x64.ActiveCfg = Debug|Any CPU
+		{BB3908B8-6740-4DE6-AB0E-95C70959D519}.zRDPClip|x64.Build.0 = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Debug|x64.Build.0 = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Release|x64.ActiveCfg = Release|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.Release|x64.Build.0 = Release|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.zRDPClip|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.zRDPClip|Any CPU.Build.0 = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.zRDPClip|x64.ActiveCfg = Debug|Any CPU
+		{31A80A95-9FE5-43BE-9312-CE68B15F5086}.zRDPClip|x64.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C1DEF68-8259-4BD5-9ABB-02B98B415F02}
+	EndGlobalSection
+EndGlobal
