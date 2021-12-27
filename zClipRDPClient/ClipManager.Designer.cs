@@ -32,15 +32,11 @@ namespace zRDPClip
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClipManager));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnConectar = new System.Windows.Forms.Button();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnDesconectar = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,23 +47,6 @@ namespace zRDPClip
             this.imageList1.Images.SetKeyName(0, "image (6).png");
             this.imageList1.Images.SetKeyName(1, "image (5).png");
             this.imageList1.Images.SetKeyName(2, "ramas ok.png");
-            // 
-            // btnConectar
-            // 
-            this.btnConectar.Location = new System.Drawing.Point(222, 54);
-            this.btnConectar.Name = "btnConectar";
-            this.btnConectar.Size = new System.Drawing.Size(75, 23);
-            this.btnConectar.TabIndex = 3;
-            this.btnConectar.Text = "Conectar";
-            this.btnConectar.UseVisualStyleBackColor = true;
-            this.btnConectar.Click += new System.EventHandler(this.btnConectar_Click);
-            // 
-            // txtUsuario
-            // 
-            this.txtUsuario.Location = new System.Drawing.Point(12, 25);
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(285, 20);
-            this.txtUsuario.TabIndex = 4;
             // 
             // contextMenuStrip1
             // 
@@ -102,40 +81,19 @@ namespace zRDPClip
             // 
             // notifyIcon1
             // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipTitle = "Clipboard";
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "zRDPClipClient";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Usuario";
-            // 
-            // btnDesconectar
-            // 
-            this.btnDesconectar.Location = new System.Drawing.Point(217, 54);
-            this.btnDesconectar.Name = "btnDesconectar";
-            this.btnDesconectar.Size = new System.Drawing.Size(80, 23);
-            this.btnDesconectar.TabIndex = 9;
-            this.btnDesconectar.Text = "Desconectar";
-            this.btnDesconectar.UseVisualStyleBackColor = true;
-            this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
-            // 
             // ClipManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(305, 87);
-            this.Controls.Add(this.btnDesconectar);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtUsuario);
-            this.Controls.Add(this.btnConectar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -146,21 +104,16 @@ namespace zRDPClip
             this.Load += new System.EventHandler(this.ClipManager_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.Button btnConectar;
-        private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.Button btnDesconectar;
     }
 }
 

@@ -11,14 +11,16 @@ namespace zRDPClip
 {
     public class WebSocketClient
     {
-        public static IODelegate Input;
+        public IODelegate Input;
+        public MessageDelegate Message;
         private SocketIO Client { get; set; }
         public string Url { get; set; }
         public string Usuario { get; set; }
 
-        public WebSocketClient()
+        public WebSocketClient(ClipManager clipManager)
         {
-            Input = ClipManager.PrintInput;
+            Input = clipManager.PrintInput;
+            Message = clipManager.MessageOuput;
         }
 
         public void Initialize()
@@ -30,11 +32,43 @@ namespace zRDPClip
                 Console.WriteLine(response);
                 var clip = response.GetValue<ClipDTO>();
                 Input(clip.Format, clip.Data);
+                clip = null;
             });
 
             Client.OnConnected += async (sender, e) =>
             {
+                Message("", $"OnConnected {e}");
                 await Client.EmitAsync($"addUser", new { UserName = Usuario });
+            };
+
+            Client.OnDisconnected += (sender, e) =>
+            {
+                Message("", $"OnDisconnected {e}");
+            };
+
+            Client.OnError += (sender, e) =>
+            {
+                Message("", $"OnError {e}");
+            };
+
+            Client.OnReconnectAttempt += (sender, e) =>
+            {
+                Message("", $"OnReconnectAttempt {e}");
+            };
+
+            Client.OnReconnected += (sender, e) =>
+            {
+                Message("", $"OnReconnected {e}");
+            };
+
+            Client.OnReconnectError += (sender, e) =>
+            {
+                Message("", $"OnReconnectError {e}");
+            };
+
+            Client.OnReconnectFailed += (sender, e) =>
+            {
+                Message("", $"OnReconnectFailed {e}");
             };
         }
 

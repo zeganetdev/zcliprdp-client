@@ -9,5 +9,6 @@ namespace zRDPClip
     public static class Delegate
     {
         public delegate void IODelegate(string format, object obj);
+        public delegate void MessageDelegate(string type, string message);
     }
 }

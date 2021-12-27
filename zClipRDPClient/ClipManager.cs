@@ -16,6 +16,8 @@ namespace zRDPClip
         
         public static event EventHandler ClipboardUpdate;
         public static IODelegate Output;
+        public static DateTime TimeSleep;
+        public string UserName { get; set; }
 
         public ClipManager()
         {
@@ -25,8 +27,6 @@ namespace zRDPClip
             Output = PrintOutput;
         }
 
-        //private static LowLevelKeyboardProc _proc = HookCallback;
-        //private static bool CONTROL_DOWN = false;
         private WebSocketClient wsClient { get; set; }
 
         protected override void WndProc(ref Message m)
@@ -106,7 +106,7 @@ namespace zRDPClip
             {
                 handler(null, e);
             }
-
+            if (TimeSleep.AddSeconds(1) >= DateTime.Now) return;
             try
             {
                 if (Clipboard.ContainsAudio())  
@@ -136,32 +136,18 @@ namespace zRDPClip
 
         private async void ClipManager_Load(object sender, EventArgs e)
         {
-            wsClient = new WebSocketClient();
+            wsClient = new WebSocketClient(this);
             Configurator.Generate();
             notifyIcon1.Visible = true;
 
             var userName = Configurator.GetUserName();
             var url = Configurator.GetUrl();
-            if (userName == null || userName.Trim().Length == 0)
-            {
-                Visible = true;
-                btnConnect(true);
-            }
-            else {
-                txtUsuario.Text = userName;
-                wsClient.Url = url;
-                wsClient.Usuario = userName;
-                wsClient.Initialize();
-                await wsClient.ConnectAsync();
-                btnConnect(false);
-                Visible = false;
-            }
-        }
 
-        private void btnConnect(bool value)
-        {
-            btnConectar.Visible = value;
-            btnDesconectar.Visible = !value;
+            UserName = userName;
+            wsClient.Url = url;
+            wsClient.Usuario = userName;
+            wsClient.Initialize();
+            await wsClient.ConnectAsync();
         }
 
         public async void PrintOutput(string format, object obj)
@@ -170,7 +156,7 @@ namespace zRDPClip
             {
                 await wsClient.SendMessageAsync(new ClipDTO
                 {
-                    UserName = txtUsuario.Text,
+                    UserName = UserName,
                     Format = format,
                     Data = obj
                 });
@@ -187,67 +173,88 @@ namespace zRDPClip
                 }
                 await wsClient.SendMessageAsync(new ClipDTO
                 {
-                    UserName = txtUsuario.Text,
+                    UserName = UserName,
                     Format = format,
                     Data = SigBase64
                 });
             }
+            obj = null;
             if (format == DataFormats.FileDrop) return;
             Application.DoEvents();
         }
 
-        public static void PrintInput(string format, object obj)
+        public void PrintInput(string format, object obj)
         {
-            Thread thread = new Thread(() => {
+            Thread thread = new Thread(() =>
+            {
                 try
                 {
                     if (format == DataFormats.Bitmap)
                     {
+                        var dataObject = new DataObject();
+                        if (Clipboard.ContainsText())
+                        {
+                            dataObject.SetData(DataFormats.Text, Clipboard.GetText());
+                        }
                         byte[] imageBytes = Convert.FromBase64String(obj.ToString());
                         using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
                         {
                             Image image = Image.FromStream(ms, true);
-                            Clipboard.SetData(format, image);
+                            dataObject.SetData(format, image);
                         }
+                        if (Clipboard.ContainsData(DataFormats.Html))
+                        {
+                            dataObject.SetData(DataFormats.Html, Clipboard.GetData(DataFormats.Html));
+                        }
+                        TimeSleep = DateTime.Now;
+                        Clipboard.SetDataObject(dataObject, true);
+                        dataObject = null;
                     }
                     if (format == DataFormats.Text)
                     {
-                        Clipboard.SetData(format, obj);
+                        var dataObject = new DataObject();
+
+                        dataObject.SetData(DataFormats.Text, obj);
+
+                        if (Clipboard.ContainsImage())
+                        {
+                            dataObject.SetData(DataFormats.Bitmap, Clipboard.GetImage());
+                        }
+                        if (Clipboard.ContainsData(DataFormats.Html))
+                        {
+                            dataObject.SetData(DataFormats.Html, Clipboard.GetData(DataFormats.Html));
+                        }
+                        TimeSleep = DateTime.Now;
+                        Clipboard.SetDataObject(dataObject, true);
+                        dataObject = null;
                     }
                     if (format == DataFormats.Html)
                     {
                         var dataObject = new DataObject();
-                        dataObject.SetText(Clipboard.GetText());
-                        Application.DoEvents();
+                        if (Clipboard.ContainsText())
+                        {
+                            dataObject.SetData(DataFormats.Text, Clipboard.GetText());
+                        }
+                        if (Clipboard.ContainsImage())
+                        {
+                            dataObject.SetData(DataFormats.Bitmap, Clipboard.GetImage());
+                        }
                         dataObject.SetData(format, obj);
+                        TimeSleep = DateTime.Now;
                         Clipboard.SetDataObject(dataObject, true);
+                        dataObject = null;
                     }
                 }
-                catch {}
+                catch (Exception ex) { Console.WriteLine(ex); }
             });
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
 
-        private async void btnConectar_Click(object sender, EventArgs e)
+        public void MessageOuput(string type, string message)
         {
-            if (txtUsuario.Text.Length == 0)
-            {
-                MessageBox.Show("No debe ser vacio", "zClipManager");
-                return;
-            }
-            wsClient.Url = Configurator.GetUrl();
-            wsClient.Usuario = txtUsuario.Text;
-            wsClient.Initialize();
-            Configurator.SetUserName(txtUsuario.Text);
-            await wsClient.ConnectAsync();
-            btnConnect(false);
-            Visible = false;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            notifyIcon1.BalloonTipText = message;
+            notifyIcon1.ShowBalloonTip(2000);
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -275,12 +282,6 @@ namespace zRDPClip
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Visible = true;
-        }
-
-        private async void btnDesconectar_Click(object sender, EventArgs e)
-        {
-            btnConnect(true);
-            await wsClient.DisconnectAsync();
         }
 
         private void ClipManager_FormClosing(object sender, FormClosingEventArgs e)
